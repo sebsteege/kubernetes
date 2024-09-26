@@ -1,0 +1,43 @@
+---
+# This values.yaml file will pull from the tamplate located here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+env:
+  TZ: UTC
+controller:
+  strategy: RollingUpdate
+  replicas: 2
+service:
+  dns-tcp:
+    enabled: true
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/allow-shared-ip: >
+        blocky services are allowed to share an IP address
+  dns-udp:
+    enabled: true
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/allow-shared-ip: >
+        blocky services are allowed to share an IP address
+config: |
+  upstream:
+    default:
+      - 208.67.222.222
+      - 208.67.220.220
+  disableIPv6: false
+  port: 53
+  httpPort: 4000
+  blocking:
+    blackLists:
+      ads:
+        - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+        - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+        - https://mirror1.malwaredomains.com/files/justdomains
+        - http://sysctl.org/cameleon/hosts
+        - https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist
+        - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+  # optional: custom IP address(es) for domain name (with all sub-domains). Multiple addresses must be separated by a comma
+  # example: query "printer.lan" or "my.printer.lan" will return 192.168.178.3
+  customDNS:
+    mapping:
+      hostname: 1.2.3.4
