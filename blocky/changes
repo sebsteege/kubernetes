@@ -1,0 +1,12 @@
+# Because blocky is a stateless application all configuration for the app is contained within the values.yaml configuration file
+# When we make changes to the values.yaml file we must upgrade the helm chart and then restart the pods
+
+helm upgrade blocky k8s-at-home/blocky -f values.yaml --namespace blocky
+kubectl rollout restart deployment blocky -n blocky
+
+# verify rollout restart
+kubectl rollout status deployment blocky -n blocky
+
+# A less gracefull method if needed 
+kubectl scale deployment blocky --replicas=0 -n blocky
+kubectl scale deployment blocky --replicas=2 -n blocky
