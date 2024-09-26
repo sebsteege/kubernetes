@@ -1,0 +1,10 @@
+# Blocky is installed via helm from the helm repository https://k8s-at-home.com/charts/
+$ helm repo add k8s-at-home https://k8s-at-home.com/charts/
+$ helm repo update
+
+# Copy the default values contained within the chart to a new file called default-values.yaml
+# This will be referenced and utilized while configuring your custom values.yaml file
+$ helm show values k8s-at-home/blocky | tee default-values.yaml
+
+# Install blocky using your custom value.yaml file
+helm install blocky k8s-at-home/blocky -n blocky --create-namespace -f values.yaml
