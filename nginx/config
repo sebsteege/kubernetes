@@ -1,0 +1,4 @@
+helm upgrade niginx ingress-nginx-4.11.2 -n nginx \
+  --set controller.dnsPolicy="None" \
+  --set controller.dnsConfig.nameservers[0]="192.168.100.3" \
+  --set controller.dnsConfig.searches[0]="cv-laboratories.com"
